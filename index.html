@@ -1,0 +1,955 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>T5 Criminal Procedure – Master Exam</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.5;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #facc15;
+    }
+    #quiz-container {
+      max-width: 1000px;
+      margin: 0 auto 40px auto;
+      background-color: #111827;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+    .question-block {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      background-color: #020617;
+      border: 1px solid #1f2937;
+    }
+    .question-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .choices label {
+      display: block;
+      margin-bottom: 4px;
+      cursor: pointer;
+    }
+    .letter {
+      font-weight: bold;
+      margin-right: 6px;
+    }
+    .feedback {
+      margin-top: 8px;
+      font-size: 0.95em;
+      display: none;
+      padding: 8px;
+      border-radius: 4px;
+    }
+    .correct {
+      color: #22c55e;
+    }
+    .incorrect {
+      color: #f97316;
+    }
+    .feedback.correct {
+      background-color: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.4);
+    }
+    .feedback.incorrect {
+      background-color: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.4);
+    }
+    #submit-btn, #reset-btn {
+      display: inline-block;
+      margin: 10px 5px 20px 5px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+    }
+    #submit-btn {
+      background-color: #22c55e;
+      color: #022c22;
+    }
+    #reset-btn {
+      background-color: #ef4444;
+      color: #fee2e2;
+    }
+    #results {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 15px;
+      border-radius: 6px;
+      background-color: #020617;
+      border: 1px solid #1f2937;
+      font-size: 1.05rem;
+    }
+    #results strong {
+      color: #a5b4fc;
+    }
+    .score-highlight {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #f97316;
+    }
+    .unanswered {
+      color: #facc15;
+      font-size: 0.95em;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>T5 Study Guide – Criminal Procedure</h1>
+  <h2>60-Question Master Exam</h2>
+
+  <div id="quiz-container"></div>
+
+  <div style="text-align:center;">
+    <button id="submit-btn" onclick="gradeQuiz()">Submit Exam</button>
+    <button id="reset-btn" onclick="resetQuiz()">Reset All</button>
+  </div>
+
+  <div id="results">
+    <p>Answer all questions, then click <strong>Submit Exam</strong> to see your score and detailed feedback.</p>
+  </div>
+
+  <script>
+    const questions = [
+      // 1–3 Sources of Law
+      {
+        q: "1. According to the study guide, police powers to search and seize are derived from and restricted by:",
+        choices: [
+          "Only the U.S. Constitution, 4th Amendment",
+          "Only the PA Crimes Code and local ordinances",
+          "The U.S. Constitution (4th Amendment), PA Constitution, U.S. and PA court decisions, and PA Rules of Criminal Procedure",
+          "Only U.S. Supreme Court decisions and federal statutes"
+        ],
+        answer: 2,
+        explanation: "The guide lists four sources: U.S. Constitution (4th Amendment), PA Constitution (Article 1 Section 8), U.S. and PA court decisions (case law), and PA Rules of Criminal Procedure."
+      },
+      {
+        q: "2. The memory key \"4 Sources = 4th Amendment\" is used to help you remember:",
+        choices: [
+          "The four elements of probable cause",
+          "That police have four different types of warrants",
+          "That there are four main sources of law governing search and seizure",
+          "The four stages of a criminal trial"
+        ],
+        answer: 2,
+        explanation: "The mnemonic ties the 4th Amendment to the four sources of law limiting search and seizure powers."
+      },
+      {
+        q: "3. Which of the following is NOT listed as one of the four sources of law for search and seizure?",
+        choices: [
+          "PA Constitution, Article 1 Section 8",
+          "U.S. Constitution, 4th Amendment",
+          "PA Rules of Criminal Procedure",
+          "PA Vehicle Code Title 75"
+        ],
+        answer: 3,
+        explanation: "The Vehicle Code is not listed as one of the four core sources in this study guide section."
+      },
+
+      // 4–6 Probable Cause definition
+      {
+        q: "4. Probable cause is based on facts and circumstances that would lead a reasonable and prudent person to believe:",
+        choices: [
+          "Only that the suspect has a criminal record",
+          "That a crime has been committed and items related to the crime are at a particular place or on a particular person",
+          "That the suspect is acting suspiciously, regardless of any crime",
+          "That an officer has a hunch that something is wrong"
+        ],
+        answer: 1,
+        explanation: "PC requires facts and circumstances indicating a crime and that evidence is located at a specific place or on a person."
+      },
+      {
+        q: "5. The memory key for probable cause (PC) can be summarized as:",
+        choices: [
+          "PC = Officer’s Hunch + Crime + Time",
+          "PC = Facts + Reasonable Person + Crime + Location",
+          "PC = Prior Record + Crime Scene + Witness",
+          "PC = Probation + Crime + Custody"
+        ],
+        answer: 1,
+        explanation: "The guide gives the shorthand: PC = “Facts + Reasonable Person + Crime + Location.”"
+      },
+      {
+        q: "6. Which phrase BEST captures the role of the \"reasonable & prudent person\" in the PC definition?",
+        choices: [
+          "It allows officers to rely on rumors",
+          "It prevents consideration of any circumstances beyond the officer’s intuition",
+          "It is an objective standard based on what an average prudent person would believe",
+          "It requires proof beyond a reasonable doubt"
+        ],
+        answer: 2,
+        explanation: "Probable cause uses an objective standard—what a reasonable and prudent person would believe—not proof beyond a reasonable doubt."
+      },
+
+      // 7–8 Legal standing traffic stops
+      {
+        q: "7. Regarding passengers during a lawful traffic stop, the study guide states that:",
+        choices: [
+          "Only the driver is considered seized",
+          "Passengers are not seized and cannot challenge the stop",
+          "A passenger is seized during the stop and may challenge the constitutionality of the stop",
+          "Passengers are only seized if they speak to the officer"
+        ],
+        answer: 2,
+        explanation: "Courts have held that passengers are also seized during a traffic stop and may challenge its constitutionality."
+      },
+      {
+        q: "8. The memory key \"If the car stops, EVERYONE is seized\" is used to remember that:",
+        choices: [
+          "Only the officer is seized",
+          "Only the driver is seized, not passengers",
+          "All occupants, including passengers, are considered seized during the stop",
+          "No one is seized during routine traffic stops"
+        ],
+        answer: 2,
+        explanation: "The mnemonic reminds you that all occupants, not just the driver, are seized for Fourth Amendment purposes during a traffic stop."
+      },
+
+      // 9–13 Expectation of privacy
+      {
+        q: "9. Katz v. U.S. (1967) is important because it began analyzing the concept of:",
+        choices: [
+          "Reasonable suspicion",
+          "Miranda rights",
+          "Reasonable expectation of privacy",
+          "Double jeopardy"
+        ],
+        answer: 2,
+        explanation: "Katz shifted the focus to a person’s reasonable expectation of privacy rather than just physical trespass."
+      },
+      {
+        q: "10. The memory key \"Katz = Privacy travels with the person\" means:",
+        choices: [
+          "Privacy only exists inside a home",
+          "There is no privacy once you leave home",
+          "Fourth Amendment protections can follow a person even outside a traditional private place",
+          "Privacy only applies to written communications"
+        ],
+        answer: 2,
+        explanation: "Katz held that privacy can attach to conversations and places where a person reasonably expects privacy, even outside the home."
+      },
+      {
+        q: "11. Taking blood for Blood Alcohol Concentration (BAC) is described as:",
+        choices: [
+          "A non-intrusive, routine procedure",
+          "An intrusive action of a constitutionally protected area",
+          "Not covered by the Fourth Amendment",
+          "Always permissible without any legal basis"
+        ],
+        answer: 1,
+        explanation: "The study guide notes that taking blood for BAC is an intrusive action into a constitutionally protected area."
+      },
+      {
+        q: "12. The guide compares DNA evidence to:",
+        choices: [
+          "Fingerprints, because both are used for identification",
+          "Photographs, because both are visual",
+          "Miranda warnings",
+          "Blood tests for BAC"
+        ],
+        answer: 0,
+        explanation: "DNA is described as similar to fingerprints for identification purposes; photographs are taken as part of processing."
+      },
+      {
+        q: "13. An abandoned home with a mattress on the floor and a sheet covering the doorway:",
+        choices: [
+          "Meets a full reasonable expectation of privacy",
+          "Is treated as curtilage and fully protected",
+          "Does NOT meet the reasonable expectation of privacy standard",
+          "Is automatically protected because of the sheet"
+        ],
+        answer: 2,
+        explanation: "The guide specifically states such an abandoned home does NOT meet the reasonable expectation of privacy."
+      },
+
+      // 14–16 Curtilage
+      {
+        q: "14. Curtilage is defined in the guide as:",
+        choices: [
+          "Any open field near a residence",
+          "Land or structures adjacent to a home to which home life extends",
+          "Only the interior of the home itself",
+          "The entire neighborhood around a house"
+        ],
+        answer: 1,
+        explanation: "Curtilage includes land or structures adjacent to the home where home life extends."
+      },
+      {
+        q: "15. Which of the following is listed as an example of curtilage?",
+        choices: [
+          "A public park two blocks away",
+          "A detached garage next to the home",
+          "A shopping mall across town",
+          "Any open field with a fence"
+        ],
+        answer: 1,
+        explanation: "Examples in the guide include a detached garage, shed, barn, close-by storage building, commercial building on the property, and yard/garden."
+      },
+      {
+        q: "16. The memory statement \"Home area = protected\" refers to:",
+        choices: [
+          "Open fields doctrine",
+          "Curtilage, which generally receives Fourth Amendment protection",
+          "Only vehicles parked in the driveway",
+          "Public sidewalks in front of the house"
+        ],
+        answer: 1,
+        explanation: "Curtilage, as an extension of the home area, is generally treated as protected under the Fourth Amendment."
+      },
+
+      // 17–19 Exclusionary rule, good faith, inevitable discovery
+      {
+        q: "17. In Mapp v. Ohio (1961), the U.S. Supreme Court applied the Exclusionary Rule to:",
+        choices: [
+          "Only federal agents",
+          "The states",
+          "Private security officers",
+          "Military police only"
+        ],
+        answer: 1,
+        explanation: "Mapp v. Ohio made the Exclusionary Rule applicable to the states via the Fourteenth Amendment."
+      },
+      {
+        q: "18. According to the study guide, Pennsylvania:",
+        choices: [
+          "Has a broad Good Faith exception to the Exclusionary Rule",
+          "Has a limited Good Faith exception only for warrants",
+          "Has NO Good Faith exception",
+          "Only applies Good Faith to vehicle searches"
+        ],
+        answer: 2,
+        explanation: "The guide clearly states that PA has no Good Faith exception."
+      },
+      {
+        q: "19. The \"Inevitable Discovery\" exception allows illegally seized evidence to be admissible if:",
+        choices: [
+          "The officer acted in good faith",
+          "The officer had a hunch the evidence existed",
+          "Police can prove the evidence would have been discovered anyway",
+          "The evidence was found in a vehicle"
+        ],
+        answer: 2,
+        explanation: "Under Nix v. Williams, evidence is admissible if it would have been inevitably discovered through lawful means."
+      },
+
+      // 20–22 Search incident to arrest / protective sweep start
+      {
+        q: "20. A warrantless search incident to arrest of a person requires:",
+        choices: [
+          "Only reasonable suspicion",
+          "A lawful arrest based upon probable cause",
+          "Consent from the arrestee",
+          "A traffic citation"
+        ],
+        answer: 1,
+        explanation: "The study guide specifies the arrest must be lawful and based on probable cause for a valid search incident to arrest."
+      },
+      {
+        q: "21. A protective sweep is described in the guide as:",
+        choices: [
+          "A full search of the entire premises",
+          "A limited search of areas where a human can hide",
+          "Only a pat-down of the arrestee",
+          "A search of all closed containers in the home"
+        ],
+        answer: 1,
+        explanation: "Protective sweeps are limited to spaces where a person could conceal themselves."
+      },
+      {
+        q: "22. During a protective sweep, officers may:",
+        choices: [
+          "Search drawers for drugs",
+          "Remove all items from closets",
+          "Temporarily detain and frisk any person found hiding",
+          "Search electronic devices without a warrant"
+        ],
+        answer: 2,
+        explanation: "The guide states that any person found hiding may be temporarily detained and frisked during the sweep."
+      },
+
+      // 23–25 Vehicle restrictions incident to arrest
+      {
+        q: "23. Under the \"Restrictions on Incident to Arrest Vehicle Searches\" in the guide, officers may NOT search:",
+        choices: [
+          "The passenger compartment",
+          "The trunk as a matter of automatic incident to arrest",
+          "Areas within immediate reach of the arrestee",
+          "The floorboards where a weapon may be hidden"
+        ],
+        answer: 1,
+        explanation: "The guide explicitly notes that the trunk is prohibited for an incident-to-arrest vehicle search."
+      },
+      {
+        q: "24. A vehicle search incident to a mere traffic citation is:",
+        choices: [
+          "Generally allowed if the officer is curious",
+          "Prohibited according to the guide",
+          "Required by department policy",
+          "Always allowed if the driver appears nervous"
+        ],
+        answer: 1,
+        explanation: "The guide states that a vehicular search incident to a traffic citation is prohibited."
+      },
+      {
+        q: "25. The memory key \"No arrest = no trunk\" helps you remember that:",
+        choices: [
+          "Without a lawful arrest, an automatic trunk search is not permitted incident to arrest",
+          "Trunk searches are allowed on every stop",
+          "Trunk searches require only reasonable suspicion",
+          "Trunk searches are unrelated to arrests"
+        ],
+        answer: 0,
+        explanation: "The mnemonic highlights that an incident-to-arrest trunk search is not justified when there is no lawful arrest."
+      },
+
+      // 26–29 Plain view / plain feel
+      {
+        q: "26. The Plain View Doctrine in a home or business requires that:",
+        choices: [
+          "The officer be lawfully present and the item be publicly exposed",
+          "The officer have a search warrant for any item seen",
+          "The item be hidden from plain sight",
+          "The officer obtain consent before seizing the item"
+        ],
+        answer: 0,
+        explanation: "Plain view applies when an officer is lawfully present and the item is publicly exposed."
+      },
+      {
+        q: "27. Which is NOT part of the three-part Plain View test described in the study guide?",
+        choices: [
+          "The item must be in plain view",
+          "The incriminating nature must be immediately apparent",
+          "Police must have lawful right of access",
+          "Officer must have previously investigated the suspect for the same crime"
+        ],
+        answer: 3,
+        explanation: "Prior investigations are not part of the three-part test; the other three elements are explicitly listed."
+      },
+      {
+        q: "28. In the example given (warrant for a watch, officer sees a brick of heroin), the seizure of the heroin is:",
+        choices: [
+          "Unlawful because it’s not listed on the warrant",
+          "Lawful under the Plain View Doctrine",
+          "Unlawful because drugs require a separate warrant",
+          "Only lawful if the suspect consents"
+        ],
+        answer: 1,
+        explanation: "The guide confirms that such a seizure is lawful under plain view when the officer is lawfully searching and recognizes the contraband."
+      },
+      {
+        q: "29. The Plain Feel extension to a frisk allows seizure when:",
+        choices: [
+          "The officer squeezes objects until he is sure",
+          "Recognition of contraband is instantaneous or immediate by feel",
+          "The officer thinks an item smells illegal",
+          "The officer wants to search further after the frisk"
+        ],
+        answer: 1,
+        explanation: "Plain feel requires that the incriminating nature be immediately apparent during the lawful frisk; plain smell alone is not enough."
+      },
+
+      // 30–33 Stop & frisk / guns & drugs
+      {
+        q: "30. To lawfully stop and frisk a person, police must have:",
+        choices: [
+          "A search warrant",
+          "Probable cause to arrest",
+          "Reasonable suspicion of criminal activity plus specific articulable facts the person is armed and dangerous",
+          "Only a general dislike of the person"
+        ],
+        answer: 2,
+        explanation: "The guide emphasizes reasonable suspicion of criminal activity AND articulable facts that the person is armed and dangerous."
+      },
+      {
+        q: "31. The study guide notes that gun possession combined with reasonable suspicion:",
+        choices: [
+          "Automatically proves guilt of a crime",
+          "Validates a frisk under appropriate circumstances",
+          "Is never enough for a frisk",
+          "Always requires a warrant"
+        ],
+        answer: 1,
+        explanation: "Reasonable suspicion plus a person being armed can validate a frisk."
+      },
+      {
+        q: "32. According to the guide, the statement \"drugs are NOT always followed by guns\" is used to show that:",
+        choices: [
+          "There is a legal presumption that guns always follow drugs",
+          "There is no legal presumption that guns always accompany drugs",
+          "Officers must ignore drugs if there is no gun",
+          "Drugs can only be seized when a gun is also present"
+        ],
+        answer: 1,
+        explanation: "The guide specifically rejects the idea of a legal presumption that guns follow drugs."
+      },
+      {
+        q: "33. The \"Frisk of Occupants\" section recites that there is:",
+        choices: [
+          "A legal presumption that guns follow drugs",
+          "No legal presumption that guns follow drugs (Grahame case)",
+          "A presumption that every car has a weapon",
+          "No need for reasonable suspicion in vehicles"
+        ],
+        answer: 1,
+        explanation: "The Grahame case is cited to reject any automatic presumption that guns follow drugs."
+      },
+
+      // 34–40 Abandoned property, hot pursuit, exigency vehicles
+      {
+        q: "34. Abandoned property may be:",
+        choices: [
+          "Seized only with a warrant",
+          "Obtained and used for evidentiary purposes without probable cause or a warrant",
+          "Protected as if it were in a home",
+          "Ignored because it has no evidentiary value"
+        ],
+        answer: 1,
+        explanation: "The guide states that abandoned property can be obtained and used without PC or a warrant."
+      },
+      {
+        q: "35. Under the \"Hot Pursuit Points\" section, courts allow:",
+        choices: [
+          "Only misdemeanor pursuit into homes",
+          "Felony pursuit and warrantless entry in appropriate circumstances",
+          "No entry without a warrant, even in hot pursuit",
+          "Entry only if the suspect consents"
+        ],
+        answer: 1,
+        explanation: "Courts recognize hot pursuit of a felon as an exigent circumstance allowing warrantless entry."
+      },
+      {
+        q: "36. One reason courts view vehicle searches differently is that:",
+        choices: [
+          "Cars are always parked in garages",
+          "Cars have a higher expectation of privacy than homes",
+          "Cars are mobile and have a lower expectation of privacy",
+          "Cars are rarely regulated"
+        ],
+        answer: 2,
+        explanation: "The guide notes cars have a lower expectation of privacy, are mobile, and operators are state-regulated."
+      },
+      {
+        q: "37. Under the Federal Rule (Carroll v. United States), a vehicle in a public place and in mobile condition:",
+        choices: [
+          "Requires a warrant for any search",
+          "Creates an exigent circumstance justifying a warrantless search once probable cause is established",
+          "Can never be searched",
+          "Can only be searched if abandoned"
+        ],
+        answer: 1,
+        explanation: "The Carroll doctrine allows a warrantless vehicle search in public when the car is mobile and there is probable cause."
+      },
+      {
+        q: "38. The memory statement \"Mobility = Exigency\" is used to summarize:",
+        choices: [
+          "Home search rules",
+          "The federal automobile exception to the warrant requirement",
+          "Inventory searches",
+          "Consent searches"
+        ],
+        answer: 1,
+        explanation: "The phrase captures why a mobile vehicle with PC creates an exigent circumstance under federal law."
+      },
+      {
+        q: "39. According to the PA Rule on exigency vehicle searches, Pennsylvania:",
+        choices: [
+          "Follows the federal automobile exception exactly",
+          "Requires only mobility to search a car without a warrant",
+          "Requires probable cause plus exigency other than mobility",
+          "Never allows warrantless vehicle searches"
+        ],
+        answer: 2,
+        explanation: "The guide notes that PA requires PC plus exigency beyond mere mobility and does not recognize the federal automobile exception."
+      },
+      {
+        q: "40. The study guide explicitly states that Pennsylvania:",
+        choices: [
+          "Fully recognizes the federal automobile exception",
+          "Does NOT recognize the federal automobile exception",
+          "Recognizes the exception only in cities",
+          "Recognizes the exception only for rental cars"
+        ],
+        answer: 1,
+        explanation: "The guide emphasizes that PA does not recognize the federal automobile exception."
+      },
+
+      // 41–44 Stop & frisk vehicle, consent search
+      {
+        q: "41. A \"Stop & Frisk of Vehicle\" is limited to:",
+        choices: [
+          "The entire vehicle including trunk and engine compartment",
+          "Passenger areas where a weapon could be concealed",
+          "Only the glove compartment",
+          "The contents of the gas tank"
+        ],
+        answer: 1,
+        explanation: "The guide says it is limited to passenger areas where a weapon may be hidden."
+      },
+      {
+        q: "42. Express consent is defined in the guide as:",
+        choices: [
+          "Consent deduced from actions",
+          "Consent given in writing or spoken",
+          "Consent assumed by law",
+          "Consent obtained only by court order"
+        ],
+        answer: 1,
+        explanation: "Express consent is given orally or in writing; implied consent is deduced from actions."
+      },
+      {
+        q: "43. Implied consent in the guide is:",
+        choices: [
+          "Consent that is assumed but not allowed",
+          "Consent given only after Miranda",
+          "Consent deduced from a person’s actions",
+          "Consent written on a search warrant"
+        ],
+        answer: 2,
+        explanation: "Implied consent is inferred from the person’s conduct rather than explicit words."
+      },
+      {
+        q: "44. For consent to be valid under the study guide, it must:",
+        choices: [
+          "Be voluntary and from someone with apparent authority",
+          "Be given under threat of arrest",
+          "Be obtained secretly through deception",
+          "Always be in writing"
+        ],
+        answer: 0,
+        explanation: "The guide states consent must be voluntary and given by someone with apparent authority."
+      },
+
+      // 45–48 Additional consent factors, spouse/landlord authority
+      {
+        q: "45. Which of the following is listed as a factor that may impact whether consent is truly voluntary?",
+        choices: [
+          "Time of day, education/intelligence, threats or intimidation, disabilities",
+          "Only the person’s favorite color",
+          "Number of officers in the entire department",
+          "The officer’s rank only"
+        ],
+        answer: 0,
+        explanation: "The guide lists age, education, intelligence, background, disabilities, knowledge of police intent, threats, time/day, display of force, language, and advisement of the right to deny."
+      },
+      {
+        q: "46. Under the \"Authority to Consent\" section, if one spouse says yes and the other says no, and both are physically present:",
+        choices: [
+          "The officer may rely on the spouse who says yes",
+          "Consent is invalid and there is NO consent",
+          "The officer must flip a coin",
+          "The officer may proceed if the children agree"
+        ],
+        answer: 1,
+        explanation: "The guide states that when one spouse consents and the other refuses while present, there is no consent."
+      },
+      {
+        q: "47. In Commonwealth v. Davis, the study guide explains that a landlord:",
+        choices: [
+          "Has full authority to consent to a tenant’s premises",
+          "Has limited authority that equals common authority",
+          "Cannot consent to a tenant’s premises",
+          "May consent only to closets"
+        ],
+        answer: 2,
+        explanation: "The guide states that a landlord cannot consent to a tenant’s premises; limited authority does not equal common authority."
+      },
+      {
+        q: "48. The statement \"Landlord’s limited authority does NOT equal common authority\" means:",
+        choices: [
+          "Landlords can always override tenants",
+          "Landlords have the same authority as tenants",
+          "Landlords cannot provide valid third-party consent to search tenant areas",
+          "Tenants have no privacy rights"
+        ],
+        answer: 2,
+        explanation: "It clarifies that a landlord’s limited right to enter does not give them common authority for consent to search against the tenant."
+      },
+
+      // 49–52 Inventory search
+      {
+        q: "49. One purpose of an inventory search listed in the guide is to:",
+        choices: [
+          "Search for drugs without probable cause",
+          "Protect the owner’s property",
+          "Punish the suspect",
+          "Avoid using warrants"
+        ],
+        answer: 1,
+        explanation: "The first purpose listed is to protect the owner’s property."
+      },
+      {
+        q: "50. Another listed purpose of an inventory search is to:",
+        choices: [
+          "Protect police from theft claims",
+          "Let officers practice searching",
+          "Punish the tow-truck driver",
+          "Avoid documenting property"
+        ],
+        answer: 0,
+        explanation: "The guide specifically notes protecting police from theft claims as a purpose."
+      },
+      {
+        q: "51. The guide also states that inventory searches help:",
+        choices: [
+          "Determine whether a vehicle was stolen or abandoned",
+          "Decide guilt or innocence at trial",
+          "Replace probable cause requirements",
+          "Destroy evidence lawfully"
+        ],
+        answer: 0,
+        explanation: "Another purpose listed is to determine whether the vehicle was stolen or abandoned."
+      },
+      {
+        q: "52. The inventory search section notes that:",
+        choices: [
+          "Seat removal is allowed and encouraged",
+          "Seat removal is NOT allowed as part of the inventory search",
+          "Officers must remove all seats",
+          "Seat removal is required whenever drugs are suspected"
+        ],
+        answer: 1,
+        explanation: "The guide explicitly states that seat removal is not allowed."
+      },
+
+      // 53–56 Open fields, Rule 203, hearsay
+      {
+        q: "53. A fenced field with a \"NO TRESPASSING\" sign and locked gate is:",
+        choices: [
+          "Automatically curtilage",
+          "Always treated like the inside of a home",
+          "NOT curtilage according to the guide",
+          "Only protected if near a highway"
+        ],
+        answer: 2,
+        explanation: "The guide states that such an area is not curtilage."
+      },
+      {
+        q: "54. Under Rule 203 and the \"Four Corners Rule,\" probable cause must be based on:",
+        choices: [
+          "Oral statements made by the officer to the judge",
+          "Only anonymous phone calls",
+          "Facts in the written application/affidavit alone",
+          "Secret notes kept by the officer"
+        ],
+        answer: 2,
+        explanation: "The \"Four Corners Rule\" means PC is judged from the four corners of the written application; no oral statements."
+      },
+      {
+        q: "55. The study guide defines hearsay as:",
+        choices: [
+          "Any statement made by an officer",
+          "An out-of-court statement offered for the truth of the matter asserted",
+          "A statement made only inside court",
+          "Any written report from the police"
+        ],
+        answer: 1,
+        explanation: "The guide gives the classic definition of hearsay: an out-of-court statement offered for its truth."
+      },
+      {
+        q: "56. The \"Foregoing Knock & Announce\" section allows officers to skip knock and announce when:",
+        choices: [
+          "It is late at night and they are tired",
+          "Occupants know their purpose, announcing endangers people, or evidence is likely to be destroyed",
+          "They want to surprise the media",
+          "They think the suspect is polite"
+        ],
+        answer: 1,
+        explanation: "The guide lists three circumstances: occupants know the purpose, announcing endangers police/others, or evidence likely to be destroyed."
+      },
+
+      // 57–60 Warrant timing, documenting search, warrantless searches list
+      {
+        q: "57. The \"Contents of S&S Warrant Rule 205\" section says a warrant should generally be executed:",
+        choices: [
+          "Within 2 days (48 hours), in daytime (6 AM–10 PM), unless nighttime is authorized for reasonable cause",
+          "Within 30 days, at any hour",
+          "Within 12 hours, only at night",
+          "Only on weekends"
+        ],
+        answer: 0,
+        explanation: "The guide notes direct expectation: within 2 days, daytime hours 6 AM–10 PM, or nighttime if reasonable cause exists."
+      },
+      {
+        q: "58. When documenting a search, if no one is home, officers should:",
+        choices: [
+          "Take the warrant with them",
+          "Leave the warrant copy in an obvious place, list seized items, and maintain chain of custody",
+          "Never leave any paperwork",
+          "Only leave a business card"
+        ],
+        answer: 1,
+        explanation: "The guide says to leave a warrant copy, place it in an obvious place if no one is home, list seized items, and maintain chain of custody."
+      },
+      {
+        q: "59. Documenting the search also requires officers to:",
+        choices: [
+          "Destroy items after seizure",
+          "Return items to the issuing authority and place them on a property receipt",
+          "Keep seized items at home",
+          "Avoid creating a paper trail"
+        ],
+        answer: 1,
+        explanation: "The guide notes returning items to the issuing authority, maintaining chain of custody, and placing them on a property receipt."
+      },
+      {
+        q: "60. Which of the following is correctly listed as a type of warrantless search in the guide?",
+        choices: [
+          "Search incident to lawful arrest, plain view/plain smell/feel, exigent circumstances with PC, automobile, consent, inventory, administrative, and open field/aerial surveillance",
+          "Only searches of curtilage and homes",
+          "Only consent searches",
+          "Only administrative inspections"
+        ],
+        answer: 0,
+        explanation: "The final section lists these as different types of warrantless searches recognized in the study guide."
+      }
+    ];
+
+    const letters = ["A", "B", "C", "D"];
+
+    function renderQuiz() {
+      const container = document.getElementById("quiz-container");
+      container.innerHTML = "";
+      questions.forEach((q, index) => {
+        const block = document.createElement("div");
+        block.className = "question-block";
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = q.q;
+        block.appendChild(title);
+
+        const choicesDiv = document.createElement("div");
+        choicesDiv.className = "choices";
+
+        q.choices.forEach((choiceText, cIndex) => {
+          const id = `q${index}_choice${cIndex}`;
+          const label = document.createElement("label");
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = `question_${index}`;
+          radio.value = cIndex;
+          radio.id = id;
+
+          const spanLetter = document.createElement("span");
+          spanLetter.className = "letter";
+          spanLetter.textContent = letters[cIndex] + ".";
+
+          const spanText = document.createElement("span");
+          spanText.textContent = " " + choiceText;
+
+          label.appendChild(radio);
+          label.appendChild(spanLetter);
+          label.appendChild(spanText);
+
+          choicesDiv.appendChild(label);
+        });
+
+        block.appendChild(choicesDiv);
+
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.id = `feedback_${index}`;
+        block.appendChild(feedback);
+
+        container.appendChild(block);
+      });
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+      let unanswered = 0;
+
+      questions.forEach((q, index) => {
+        const feedback = document.getElementById(`feedback_${index}`);
+        feedback.style.display = "block";
+
+        const radios = document.getElementsByName(`question_${index}`);
+        let selected = -1;
+        for (let r of radios) {
+          if (r.checked) {
+            selected = parseInt(r.value, 10);
+            break;
+          }
+        }
+
+        if (selected === -1) {
+          unanswered++;
+          feedback.className = "feedback incorrect";
+          feedback.innerHTML =
+            "<span class='unanswered'>Unanswered.</span> Correct answer: " +
+            letters[q.answer] +
+            ". " +
+            q.explanation;
+        } else if (selected === q.answer) {
+          score++;
+          feedback.className = "feedback correct";
+          feedback.innerHTML =
+            "<span class='correct'>Correct!</span> " + q.explanation;
+        } else {
+          feedback.className = "feedback incorrect";
+          feedback.innerHTML =
+            "<span class='incorrect'>Incorrect.</span> You chose " +
+            letters[selected] +
+            ", but the correct answer is " +
+            letters[q.answer] +
+            ". " +
+            q.explanation;
+        }
+      });
+
+      const percent = ((score / questions.length) * 100).toFixed(1);
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML =
+        "<p class='score-highlight'>Score: " +
+        score +
+        " / " +
+        questions.length +
+        " (" +
+        percent +
+        "%)</p>" +
+        (unanswered > 0
+          ? "<p><strong>Unanswered questions:</strong> " +
+            unanswered +
+            " – make sure to answer everything next run.</p>"
+          : "<p><strong>Nice!</strong> You answered all questions.</p>") +
+        "<p>Scroll through the exam to review each question’s feedback and explanations so you can lock this in for your test.</p>";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function resetQuiz() {
+      const radios = document.querySelectorAll("input[type='radio']");
+      radios.forEach(r => (r.checked = false));
+
+      const feedbacks = document.querySelectorAll(".feedback");
+      feedbacks.forEach(fb => {
+        fb.style.display = "none";
+        fb.textContent = "";
+      });
+
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML =
+        "<p>Answer all questions, then click <strong>Submit Exam</strong> to see your score and detailed feedback.</p>";
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Render on load
+    renderQuiz();
+  </script>
+</body>
+</html>
